@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="一键生成用于 LLM 任意任务的随机风格种子提示词。"
+    />
+    <title>Style Seed Foundry</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-labelledby="page-title">
+        <div class="control-panel">
+          <header class="masthead">
+            <p class="brand">Style Seed Foundry</p>
+            <h1 id="page-title"><span>风格种子</span><span>生成器</span></h1>
+            <p class="deck">随机抽取抽象英文关键词，组合成可直接交给 LLM 的风格种子。</p>
+          </header>
+
+          <div class="count-control" aria-label="关键词数量">
+            <span class="control-label">关键词数量</span>
+            <div class="segmented" role="radiogroup" aria-label="选择关键词数量">
+              <button class="segment" type="button" role="radio" aria-checked="false" data-count="2">2</button>
+              <button class="segment is-active" type="button" role="radio" aria-checked="true" data-count="3">3</button>
+              <button class="segment" type="button" role="radio" aria-checked="false" data-count="4">4</button>
+              <button class="segment" type="button" role="radio" aria-checked="false" data-count="5">5</button>
+            </div>
+          </div>
+
+          <button id="generateBtn" class="generate-btn" type="button">
+            <span class="btn-glyph" aria-hidden="true">✦</span>
+            <span>生成风格种子</span>
+          </button>
+
+          <div class="status-strip" aria-label="词库状态">
+            <div>
+              <span class="status-value" id="bankCount">0</span>
+              <span class="status-label">词库规模</span>
+            </div>
+            <div>
+              <span class="status-value" id="seedCount">0</span>
+              <span class="status-label">已生成</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-panel" aria-live="polite">
+          <div class="visual-wrap">
+            <canvas id="seedCanvas" width="920" height="360" aria-hidden="true"></canvas>
+          </div>
+
+          <div class="result-head">
+            <div>
+              <span class="control-label">生成结果</span>
+              <h2 id="seedTitle">等待生成</h2>
+            </div>
+            <div id="resultActions" class="result-actions" hidden>
+              <button id="saveBtn" class="secondary-btn" type="button">保存为skill</button>
+              <button id="copyBtn" class="secondary-btn secondary-btn-dark" type="button">复制提示词</button>
+            </div>
+          </div>
+
+          <div id="keywordChips" class="keyword-chips" aria-label="已选关键词"></div>
+          <pre id="promptOutput" class="prompt-output" tabindex="0">生成后将在这里显示完整提示词。</pre>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./script.js"></script>
+  </body>
+</html>
