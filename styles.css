@@ -114,10 +114,14 @@ h1 span {
   line-height: 1.72;
 }
 
-.count-control {
+.count-control,
+.bank-control {
   display: grid;
   gap: 12px;
-  margin: auto 0 22px;
+}
+
+.count-control {
+  margin: auto 0 0;
 }
 
 .segmented {
@@ -153,6 +157,68 @@ h1 span {
   background: var(--ink);
   color: #fffdf8;
   box-shadow: 0 10px 24px rgba(21, 21, 21, 0.2);
+}
+
+.bank-control {
+  margin: 18px 0 22px;
+}
+
+.bank-segmented {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bank-option {
+  min-height: 64px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f4efe5;
+  color: var(--ink);
+  padding: 9px 10px;
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.bank-option span {
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.bank-option small {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.bank-option:hover {
+  transform: translateY(-1px);
+}
+
+.bank-option.is-active {
+  border-color: var(--ink);
+  background: #fffdf8;
+  box-shadow: 0 10px 22px rgba(21, 21, 21, 0.12);
+}
+
+.bank-option.is-active small {
+  color: #3f3b34;
+}
+
+.bank-hint {
+  min-height: 1.1rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 .generate-btn,
@@ -192,7 +258,8 @@ h1 span {
 
 .generate-btn:active,
 .secondary-btn:active,
-.segment:active {
+.segment:active,
+.bank-option:active {
   transform: translateY(0);
 }
 
@@ -305,6 +372,21 @@ h2 {
   font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.88rem;
   white-space: nowrap;
+}
+
+.chip[data-bank="real"] {
+  border-color: rgba(217, 74, 54, 0.42);
+  background: rgba(217, 74, 54, 0.08);
+}
+
+.chip[data-bank="image"] {
+  border-color: rgba(71, 120, 90, 0.46);
+  background: rgba(71, 120, 90, 0.09);
+}
+
+.chip[data-bank="drift"] {
+  border-color: rgba(23, 111, 143, 0.42);
+  background: rgba(23, 111, 143, 0.08);
 }
 
 .prompt-output {
@@ -420,6 +502,10 @@ h2 {
   }
 
   .status-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .bank-segmented {
     grid-template-columns: 1fr;
   }
 }

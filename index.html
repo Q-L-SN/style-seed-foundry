@@ -17,7 +17,7 @@
           <header class="masthead">
             <p class="brand">Style Seed Foundry</p>
             <h1 id="page-title"><span>风格种子</span><span>生成器</span></h1>
-            <p class="deck">随机抽取抽象英文关键词，组合成可直接交给 LLM 的风格种子。</p>
+            <p class="deck">从现实、意象、抽象偏移词库随机抽取关键词，组合成可直接交给 LLM 的风格种子。</p>
           </header>
 
           <div class="count-control" aria-label="关键词数量">
@@ -30,6 +30,29 @@
             </div>
           </div>
 
+          <div class="bank-control" aria-label="词库选择">
+            <span class="control-label">词库混合</span>
+            <div class="bank-segmented" role="radiogroup" aria-label="选择词库来源">
+              <button class="bank-option is-active" type="button" role="radio" aria-checked="true" data-bank-mode="mixed">
+                <span>均衡混合</span>
+                <small>三类轮换</small>
+              </button>
+              <button class="bank-option" type="button" role="radio" aria-checked="false" data-bank-mode="real">
+                <span>现实词库</span>
+                <small>色彩/风格/约束</small>
+              </button>
+              <button class="bank-option" type="button" role="radio" aria-checked="false" data-bank-mode="image">
+                <span>意象词库</span>
+                <small>画面/情绪/物象</small>
+              </button>
+              <button class="bank-option" type="button" role="radio" aria-checked="false" data-bank-mode="drift">
+                <span>抽象偏移</span>
+                <small>制度/成语/错位</small>
+              </button>
+            </div>
+            <p id="bankHint" class="bank-hint"></p>
+          </div>
+
           <button id="generateBtn" class="generate-btn" type="button">
             <span class="btn-glyph" aria-hidden="true">✦</span>
             <span>生成风格种子</span>
@@ -38,7 +61,7 @@
           <div class="status-strip" aria-label="词库状态">
             <div>
               <span class="status-value" id="bankCount">0</span>
-              <span class="status-label">词库规模</span>
+              <span class="status-label">总词库规模</span>
             </div>
             <div>
               <span class="status-value" id="seedCount">0</span>
