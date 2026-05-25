@@ -99,9 +99,9 @@ let toastTimer = 0;
 elements.bankCount.textContent = ALL_WORDS.length.toLocaleString("en-US");
 updateBankHint();
 drawCanvas([
-  { value: "柠檬黄-无圆角", bankId: "real", bankLabel: "现实词库", bank: WORD_BANKS[0] },
-  { value: "记忆-有炭火味", bankId: "image", bankLabel: "意象词库", bank: WORD_BANKS[1] },
-  { value: "治理-洛阳纸贵", bankId: "drift", bankLabel: "抽象偏移词库", bank: WORD_BANKS[2] }
+  { value: "柠檬黄 无圆角", bankId: "real", bankLabel: "现实词库", bank: WORD_BANKS[0] },
+  { value: "记忆 有炭火味", bankId: "image", bankLabel: "意象词库", bank: WORD_BANKS[1] },
+  { value: "治理 洛阳纸贵", bankId: "drift", bankLabel: "抽象偏移词库", bank: WORD_BANKS[2] }
 ]);
 
 elements.segments.forEach((segment) => {
@@ -195,13 +195,28 @@ elements.saveBtn.addEventListener("click", async () => {
 });
 
 function buildBanks(rawBanks) {
+  const seen = new Set();
+
   return rawBanks.map((bank) => {
-    const combined = bank.left.flatMap((left) => bank.right.map((right) => `${left}-${right}`));
-    const words = [...new Set([...bank.seeds, ...bank.left, ...bank.right, ...combined])]
-      .sort()
-      .map((value) => ({ value, bankId: bank.id, bankLabel: bank.label }));
+    const phrases = bank.left.flatMap((left) => bank.right.map((right) => `${left} ${right}`));
+    const words = [];
+
+    [...bank.seeds, ...bank.left, ...bank.right, ...phrases].forEach((rawValue) => {
+      const value = normalizeWord(rawValue);
+      if (value && !value.includes("-") && !seen.has(value)) {
+        seen.add(value);
+        words.push({ value, bankId: bank.id, bankLabel: bank.label });
+      }
+    });
+
+    words.sort((a, b) => a.value.localeCompare(b.value, "zh-Hans-CN"));
+
     return { ...bank, words };
   });
+}
+
+function normalizeWord(value) {
+  return value.trim().replace(/\s+/g, " ");
 }
 
 function updateBankHint() {
@@ -235,14 +250,13 @@ function pickSeedItems(count, mode) {
 
 function buildPrompt(keywords) {
   const rows = keywords
-    .map((item, index) => `| ${index + 1} | ${item.bankLabel} | ${item.value} |`)
+    .map((item, index) => `${index + 1} | ${item.bankLabel} | ${item.value}`)
     .join("\n");
 
   return `${GUIDE}
 
 关键词/短语表：
-| # | 词库 | Keyword |
-|---|---|---|
+# | 词库 | Keyword
 ${rows}`;
 }
 
